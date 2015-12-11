@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="controls">
+        <item name="0">Big</item>
+        <item name="1">Small</item>
+        <item name="2">Medium</item>
+        <item name="3">Small at top</item>
+        <item name="4">Follow finger</item>
+        <item name="5">Outside game window</item>
+        <item name="6">Left of game window</item>
+        <item name="7">Right of game window</item>
+    </string-array>
+    
+    <string-array name="controlsValues">
+        <item name="0">0</item>
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+        <item name="7">7</item>
+    </string-array>
+</resources>

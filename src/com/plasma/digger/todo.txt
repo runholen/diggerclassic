@@ -1,0 +1,4 @@
+//onpause-implementation
+//enter hiscore-initials
+//save/load hiscores
+//music/sound

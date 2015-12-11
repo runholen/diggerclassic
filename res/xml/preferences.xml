@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Controls" android:key="controls">
+    	<ListPreference 
+            android:key="buttonsMode"
+            android:title="Controls"
+            android:summary="Choose controls."
+            android:defaultValue="7"
+            android:entries="@array/controls"
+            android:entryValues="@array/controlsValues"
+        />
+    </PreferenceCategory>
+    
+    
+</PreferenceScreen>
