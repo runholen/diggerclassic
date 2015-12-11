@@ -2,4 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/about" android:title="About"></item>
     <item android:id="@+id/settings" android:title="Settings"></item>
+    <item android:id="@+id/license" android:title="License"></item>
 </menu>

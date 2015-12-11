@@ -74,15 +74,34 @@ public class Digger extends Activity implements Callback, OnTouchListener, Selec
 	public boolean onOptionsItemSelected(android.view.MenuItem item){
     	switch(item.getItemId()){
     	case R.id.about:
-    		Digger.this.runOnUiThread(new CustomDialog(Digger.this,"About",null,getText(),false));
+    		Digger.this.runOnUiThread(new CustomDialog(Digger.this,"About",null,getAboutText(),false));
     		return true;
     	case R.id.settings:
     		startActivityForResult(new android.content.Intent(this, SettingsActivity.class), 0);
     		return true;
+    	case R.id.license:
+    		Digger.this.runOnUiThread(new CustomDialog(Digger.this,"License",null,getLicenseText(),false));
     	default:
     		return super.onOptionsItemSelected(item);
     	}
     }
+	
+	/**
+	 * For new-style phones without hardware menubutton, i added an in-game menubutton.
+	 */
+	@Override
+	public void selectionChoosed(int id, Object object, int itemIndex, String value) {
+		if (itemIndex == 0){
+			Digger.this.runOnUiThread(new CustomDialog(Digger.this,"About",null,getAboutText(),false));
+		}
+		else if (itemIndex == 1){
+			startActivityForResult(new android.content.Intent(this, SettingsActivity.class), 0);
+		}
+		else if (itemIndex == 2){
+			Digger.this.runOnUiThread(new CustomDialog(Digger.this,"License",null,getLicenseText(),false));
+		}
+		showingMenu  = false;
+	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -168,12 +187,9 @@ public class Digger extends Activity implements Callback, OnTouchListener, Selec
     }
     
 	private void draw() {
-		// TODO thread safety - the SurfaceView could go away while we are drawing
-		
+		// TODO thread safety - the SurfaceView could go away while we are drawing		
 		Canvas c = null;
 		try {
-			// NOTE: in the LunarLander they don't have any synchronization here,
-			// so I guess this is OK. It will return null if the holder is not ready
 			c = holder.lockCanvas();
 			
 			// TODO this needs to synchronize on something?
@@ -223,10 +239,8 @@ public class Digger extends Activity implements Callback, OnTouchListener, Selec
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-			//showError("Error", "An error occured:\n"+ex.toString(),false);
 			try{Thread.sleep(1000);}catch(Exception ex2){}
 		}
-		//Canvas.save and Canvas restore will remove flickering?
 	}
     
 	protected class GameLoop extends Thread {
@@ -238,7 +252,6 @@ public class Digger extends Activity implements Callback, OnTouchListener, Selec
 			init("",66);
 			while (running) {
 				try {
-					// TODO don't like this hardcoding
 					TimeUnit.MILLISECONDS.sleep(5);
 					
 					synchronized (this) {
@@ -1157,32 +1170,28 @@ public class Digger extends Activity implements Callback, OnTouchListener, Selec
 		}
 	}
 	
-	private String getText(){
+	private String getAboutText(){
 		String s = "Hi, and welcome to Digger Classic.\n";
 		s += "Digger Classic is the authentic Digger experience.\n";
 		s += "This version of the good old DOS-game Digger, now on Android, is not a remake, but is based on the Java port (by Marek Futrega) of Andrew Jenner's reverse-engineered open-source version of Digger for DOS. This makes for an authentic Digger experience with exact gameplay, just as you remember it from the good old days. Eg bags will not fall down when moving up from below, and you may reverse-shoot when doing this (may not work properly on some devices due to multitouch limitations).\n";
 		s += "The Android port is developed and made available by Runar Holen. It is provided free of charge and with no ads.\n";
-		s += "If you want to support the developer, you may allways drop a dollar or two at my paypal account runholen@gmail.com\n";
-		s += "Here you may also send bug reports if you want.\n";
 		s += "For more info about Digger, visit http://www.digger.org/\n";
+		s += "Source code available at github at https://github.com/runholen/diggerclassic/\n";
 		s += "Sound was originally not int the Java-port, but since then, Marek Futrega has also made a javascript version at http://www.futrega.org/digger/ with sound. The sound is mostly ported from this version (that you should also try out btw :-) )\n";
+		return s;
+	}
+	
+	private String getLicenseText(){
+		String s = "Digger Classic source and license specifications is now available at https://github.com/runholen/diggerclassic/\n";
+		s += "Digger Classic is based on Digger Remastered, which is licensed under GNU GPL.\n";
+		s += "For more info about Digger Remastered license, see http://www.digger.org/faq.html\n";
+		s += "If you want to improve on Digger Classic, (eg fix better controllers), please feel free to download the sources from https://github.com/runholen/diggerclassic/ and make a pull request. ;-)";
 		return s;
 	}
 	
 	public void showMenu(){
 		showingMenu = true;
-		String[] sos = {"About","Settings","Cancel"};
+		String[] sos = {"About","Settings","License","Cancel"};
 		Common.showSelectionDialog(this, this, 1, null, "Menu", null, sos, 2, false);
-	}
-
-	@Override
-	public void selectionChoosed(int id, Object object, int itemIndex, String value) {
-		if (itemIndex == 0){
-			Digger.this.runOnUiThread(new CustomDialog(Digger.this,"About",null,getText(),false));
-		}
-		else if (itemIndex == 1){
-			startActivityForResult(new android.content.Intent(this, SettingsActivity.class), 0);
-		}
-		showingMenu  = false;
 	}
 }
